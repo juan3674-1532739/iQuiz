@@ -26,7 +26,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.textLabel?.text = list[indexPath.row]
         cell.detailTextLabel?.text = descriptions[indexPath.row]
         cell.imageView?.image = UIImage(named: images[indexPath.row])
-        cell.imageView?.frame = CGRect(x:0, y: 0, width: 20, height: 20)
+        let itemSize = CGSize.init(width: 20, height: 20)
+        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.main.scale);
+        let imageRect = CGRect.init(origin: CGPoint.zero, size: itemSize)
+        cell.imageView?.image!.draw(in: imageRect)
+        cell.imageView?.image! = UIGraphicsGetImageFromCurrentImageContext()!;
+        UIGraphicsEndImageContext();
+        
         return cell
     }
     @IBOutlet weak var tableView: UITableView!
