@@ -65,16 +65,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         task.resume()
     }
     
-    private func parseJSON(_ jsonObj: Array<[String: Any]>) {
-        for topic in jsonObj {
+    private func parseJSON(_ data: Array<[String: Any]>) {
+        for topic in data {
             let title = topic["title"] as! String
             let description = topic["desc"] as! String
             var questionList = [Question]()
             for question in topic["questions"]  as! [AnyObject] {
                 let questionTitle = question["text"] as! String
                 var listOfAnswers = [String]()
-                let correctIndex = question["answer"] as! String
                 let choices = question["answers"] as! [AnyObject]
+                let correctIndex = question["answer"] as! String
                 for answer in choices {
                     listOfAnswers.append(answer as! String)
                 }
@@ -103,7 +103,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             textField.placeholder = "Provide new URL"
         }
         alertController.addAction(UIAlertAction(title: "Check Now", style: .default, handler: { [weak alertController] (_) in
-            let textField = alertController?.textFields![0] // Force unwrapping because we know it exists.
+            let textField = alertController?.textFields![0]
             if !(textField?.text)!.isEmpty {
                 self.url = (textField?.text)!
                 self.loadData(url: self.url)
